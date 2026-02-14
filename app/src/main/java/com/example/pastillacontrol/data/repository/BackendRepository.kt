@@ -12,16 +12,19 @@ import com.example.pastillacontrol.data.remote.RegisterRequest
 import com.example.pastillacontrol.data.remote.SchedulePayload
 import com.example.pastillacontrol.data.remote.SessionStore
 import java.util.TimeZone
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import retrofit2.Response
 
 class BackendRepository(context: Context) {
     private val appContext = context.applicationContext
     private val api: BackendApi = BackendClient.create(appContext)
     private val sessionStore = SessionStore(appContext)
+    private val authMutex = Mutex()
 
     suspend fun listMedications(): List<MedicationEntity> {
         return runCatching {
-            ensureAuthenticated()
-            val response = api.listMedications()
+            val response = executeAuthorized { api.listMedications() }
             if (!response.isSuccessful) error("list medications failed")
             response.body().orEmpty().map {
                 MedicationEntity(
@@ -42,7 +45,6 @@ class BackendRepository(context: Context) {
 
     suspend fun upsertMedication(entity: MedicationEntity) {
         runCatching {
-            ensureAuthenticated()
             val payload = MedicationPayload(
                 name = entity.name,
                 dosage_amount = entity.dosageAmount,
@@ -51,10 +53,12 @@ class BackendRepository(context: Context) {
                 is_active = entity.isActive
             )
 
-            val response = if (entity.id > 0L) {
-                api.updateMedication(entity.id, payload)
-            } else {
-                api.createMedication(payload)
+            val response = executeAuthorized {
+                if (entity.id > 0L) {
+                    api.updateMedication(entity.id, payload)
+                } else {
+                    api.createMedication(payload)
+                }
             }
 
             if (!response.isSuccessful) error("upsert medication failed")
@@ -65,8 +69,7 @@ class BackendRepository(context: Context) {
 
     suspend fun deleteMedication(id: Long) {
         runCatching {
-            ensureAuthenticated()
-            val response = api.deleteMedication(id)
+            val response = executeAuthorized { api.deleteMedication(id) }
             if (!response.isSuccessful) error("delete medication failed")
         }.onFailure {
             InMemoryStore.deleteMedication(id)
@@ -79,8 +82,7 @@ class BackendRepository(context: Context) {
 
     suspend fun listSchedules(): List<ScheduleEntity> {
         return runCatching {
-            ensureAuthenticated()
-            val response = api.listSchedules()
+            val response = executeAuthorized { api.listSchedules() }
             if (!response.isSuccessful) error("list schedules failed")
             response.body().orEmpty().map {
                 ScheduleEntity(
@@ -103,7 +105,6 @@ class BackendRepository(context: Context) {
 
     suspend fun createSchedule(schedule: ScheduleEntity) {
         runCatching {
-            ensureAuthenticated()
             val payload = SchedulePayload(
                 medication_id = schedule.medicationId,
                 type = schedule.type,
@@ -114,7 +115,7 @@ class BackendRepository(context: Context) {
                 grace_minutes = schedule.graceMinutes,
                 is_active = schedule.isActive
             )
-            val response = api.createSchedule(payload)
+            val response = executeAuthorized { api.createSchedule(payload) }
             if (!response.isSuccessful) error("create schedule failed")
         }.onFailure {
             InMemoryStore.addSchedule(schedule)
@@ -126,29 +127,49 @@ class BackendRepository(context: Context) {
         InMemoryStore.deleteSchedule(id)
     }
 
-    private suspend fun ensureAuthenticated() {
-        if (!sessionStore.getToken().isNullOrBlank()) return
+    private suspend fun ensureAuthenticated(forceRefresh: Boolean = false) {
+        if (!forceRefresh && !sessionStore.getToken().isNullOrBlank()) return
 
-        val email = sessionStore.getOrCreateDemoEmail()
-        val password = sessionStore.getOrCreateDemoPassword()
+        authMutex.withLock {
+            if (!forceRefresh && !sessionStore.getToken().isNullOrBlank()) return
 
-        val login = api.login(LoginRequest(email, password))
-        if (login.isSuccessful) {
-            login.body()?.access_token?.let(sessionStore::saveToken)
-            if (!sessionStore.getToken().isNullOrBlank()) return
-        }
+            if (forceRefresh) {
+                sessionStore.clearToken()
+            }
 
-        val register = api.register(
-            RegisterRequest(
-                email = email,
-                full_name = "Pastilla Demo User",
-                password = password,
-                role = "PATIENT"
+            val email = sessionStore.getOrCreateDemoEmail()
+            val password = sessionStore.getOrCreateDemoPassword()
+
+            val login = api.login(LoginRequest(email, password))
+            if (login.isSuccessful) {
+                login.body()?.access_token?.let(sessionStore::saveToken)
+                if (!sessionStore.getToken().isNullOrBlank()) return
+            }
+
+            val register = api.register(
+                RegisterRequest(
+                    email = email,
+                    full_name = "Pastilla Demo User",
+                    password = password,
+                    role = "PATIENT"
+                )
             )
-        )
-        if (register.isSuccessful) {
-            register.body()?.access_token?.let(sessionStore::saveToken)
+            if (register.isSuccessful) {
+                register.body()?.access_token?.let(sessionStore::saveToken)
+            }
         }
+    }
+
+    private suspend fun <T> executeAuthorized(request: suspend () -> Response<T>): Response<T> {
+        ensureAuthenticated()
+        var response = request()
+
+        if (response.code() == 401) {
+            ensureAuthenticated(forceRefresh = true)
+            response = request()
+        }
+
+        return response
     }
 
     fun initializeLocalStore() {

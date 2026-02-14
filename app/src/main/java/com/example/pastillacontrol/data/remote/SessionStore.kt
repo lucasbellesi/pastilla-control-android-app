@@ -12,6 +12,10 @@ class SessionStore(context: Context) {
         prefs.edit().putString(KEY_TOKEN, token).apply()
     }
 
+    fun clearToken() {
+        prefs.edit().remove(KEY_TOKEN).apply()
+    }
+
     fun getOrCreateDemoEmail(): String {
         val existing = prefs.getString(KEY_EMAIL, null)
         if (!existing.isNullOrBlank()) return existing
