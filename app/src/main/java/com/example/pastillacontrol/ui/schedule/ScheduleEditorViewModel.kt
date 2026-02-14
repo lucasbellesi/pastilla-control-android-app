@@ -4,12 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.pastillacontrol.data.local.InMemoryStore
+import androidx.lifecycle.viewModelScope
 import com.example.pastillacontrol.data.local.MedicationEntity
 import com.example.pastillacontrol.data.local.ScheduleEntity
-import java.util.TimeZone
+import com.example.pastillacontrol.data.repository.BackendRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ScheduleEditorViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = BackendRepository(application)
     private val _medications = MutableLiveData<List<MedicationEntity>>(emptyList())
     val medications: LiveData<List<MedicationEntity>> = _medications
 
@@ -17,12 +20,14 @@ class ScheduleEditorViewModel(application: Application) : AndroidViewModel(appli
     val schedules: LiveData<List<ScheduleEntity>> = _schedules
 
     init {
-        InMemoryStore.init(application)
+        repository.initializeLocalStore()
     }
 
     fun refresh() {
-        _medications.value = InMemoryStore.getMedications()
-        _schedules.value = InMemoryStore.getSchedules()
+        viewModelScope.launch(Dispatchers.IO) {
+            _medications.postValue(repository.listMedications())
+            _schedules.postValue(repository.listSchedules())
+        }
     }
 
     fun saveSchedule(
@@ -33,24 +38,25 @@ class ScheduleEditorViewModel(application: Application) : AndroidViewModel(appli
         intervalHours: Int?,
         graceMinutes: Int
     ) {
-        InMemoryStore.addSchedule(
-            ScheduleEntity(
-                medicationId = medicationId,
-                type = type,
-                timeOfDay = timeOfDay,
-                daysOfWeekMask = daysOfWeekMask,
-                intervalHours = intervalHours,
-                startDateEpochMillis = System.currentTimeMillis(),
-                timezoneId = TimeZone.getDefault().id,
-                graceMinutes = graceMinutes,
-                isActive = true
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.createSchedule(
+                repository.newSchedule(
+                    medicationId = medicationId,
+                    type = type,
+                    timeOfDay = timeOfDay,
+                    daysOfWeekMask = daysOfWeekMask,
+                    intervalHours = intervalHours,
+                    graceMinutes = graceMinutes
+                )
             )
-        )
-        refresh()
+            _schedules.postValue(repository.listSchedules())
+        }
     }
 
     fun deleteSchedule(id: Long) {
-        InMemoryStore.deleteSchedule(id)
-        refresh()
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteSchedule(id)
+            _schedules.postValue(repository.listSchedules())
+        }
     }
 }

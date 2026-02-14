@@ -3,15 +3,19 @@ package com.example.pastillacontrol.ui.medications
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.pastillacontrol.data.local.InMemoryStore
+import androidx.lifecycle.viewModelScope
 import com.example.pastillacontrol.data.local.MedicationEntity
+import com.example.pastillacontrol.data.repository.BackendRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MedicationEditorViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = BackendRepository(application)
     val medication = MutableLiveData<MedicationEntity?>()
     val saveCompleted = MutableLiveData<Boolean>()
 
     init {
-        InMemoryStore.init(application)
+        repository.initializeLocalStore()
     }
 
     fun loadMedication(id: Long) {
@@ -20,7 +24,9 @@ class MedicationEditorViewModel(application: Application) : AndroidViewModel(app
             return
         }
 
-        medication.value = InMemoryStore.getMedicationById(id)
+        viewModelScope.launch(Dispatchers.IO) {
+            medication.postValue(repository.getMedicationById(id))
+        }
     }
 
     fun saveMedication(
@@ -30,20 +36,22 @@ class MedicationEditorViewModel(application: Application) : AndroidViewModel(app
         dosageUnit: String,
         notes: String
     ) {
-        val userId = "local_patient"
-        val existing = medication.value
-        InMemoryStore.upsertMedication(
-            MedicationEntity(
-                id = id,
-                userId = userId,
-                name = name,
-                dosageAmount = dosageAmount,
-                dosageUnit = dosageUnit,
-                notes = notes,
-                isActive = true,
-                createdAtEpochMillis = existing?.createdAtEpochMillis ?: System.currentTimeMillis()
+        viewModelScope.launch(Dispatchers.IO) {
+            val userId = "remote"
+            val existing = medication.value
+            repository.upsertMedication(
+                MedicationEntity(
+                    id = id,
+                    userId = userId,
+                    name = name,
+                    dosageAmount = dosageAmount,
+                    dosageUnit = dosageUnit,
+                    notes = notes,
+                    isActive = true,
+                    createdAtEpochMillis = existing?.createdAtEpochMillis ?: System.currentTimeMillis()
+                )
             )
-        )
-        saveCompleted.value = true
+            saveCompleted.postValue(true)
+        }
     }
 }

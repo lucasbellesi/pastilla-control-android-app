@@ -4,23 +4,31 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.pastillacontrol.data.local.InMemoryStore
+import androidx.lifecycle.viewModelScope
 import com.example.pastillacontrol.data.local.MedicationEntity
+import com.example.pastillacontrol.data.repository.BackendRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MedicationsViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = BackendRepository(application)
     private val _medications = MutableLiveData<List<MedicationEntity>>(emptyList())
     val medications: LiveData<List<MedicationEntity>> = _medications
 
     init {
-        InMemoryStore.init(application)
+        repository.initializeLocalStore()
     }
 
     fun refresh() {
-        _medications.value = InMemoryStore.getMedications()
+        viewModelScope.launch(Dispatchers.IO) {
+            _medications.postValue(repository.listMedications())
+        }
     }
 
     fun deleteMedication(id: Long) {
-        InMemoryStore.deleteMedication(id)
-        refresh()
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteMedication(id)
+            _medications.postValue(repository.listMedications())
+        }
     }
 }
