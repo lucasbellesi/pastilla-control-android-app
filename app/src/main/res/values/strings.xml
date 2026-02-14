@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PastillaControl</string>
+    <string name="home_title">Today</string>
+    <string name="menu_medications">Medications</string>
+    <string name="menu_schedule">Schedules</string>
+    <string name="menu_history">History</string>
+    <string name="placeholder_medications">Medication CRUD screen scaffold is ready.</string>
+    <string name="placeholder_schedule">Schedule editor scaffold is ready.</string>
+    <string name="placeholder_history">Dose event timeline scaffold is ready.</string>
+    <string name="reminder_title">Medication reminder</string>
+    <string name="reminder_message">It is time to take your medication.</string>
+    <string name="action_taken">Taken</string>
+</resources>
