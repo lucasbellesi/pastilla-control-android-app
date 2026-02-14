@@ -26,7 +26,18 @@
         android:id="@+id/medicationsFragment"
         android:name="com.example.pastillacontrol.ui.medications.MedicationsFragment"
         android:label="@string/menu_medications"
-        tools:layout="@layout/fragment_medications" />
+        tools:layout="@layout/fragment_medications">
+
+        <action
+            android:id="@+id/action_medicationsFragment_to_medicationEditorFragment"
+            app:destination="@id/medicationEditorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/medicationEditorFragment"
+        android:name="com.example.pastillacontrol.ui.medications.MedicationEditorFragment"
+        android:label="@string/add_medication"
+        tools:layout="@layout/fragment_medication_editor" />
 
     <fragment
         android:id="@+id/scheduleEditorFragment"

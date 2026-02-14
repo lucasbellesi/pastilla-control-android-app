@@ -4,10 +4,20 @@
     <string name="menu_medications">Medications</string>
     <string name="menu_schedule">Schedules</string>
     <string name="menu_history">History</string>
-    <string name="placeholder_medications">Medication CRUD screen scaffold is ready.</string>
-    <string name="placeholder_schedule">Schedule editor scaffold is ready.</string>
     <string name="placeholder_history">Dose event timeline scaffold is ready.</string>
     <string name="reminder_title">Medication reminder</string>
     <string name="reminder_message">It is time to take your medication.</string>
     <string name="action_taken">Taken</string>
+    <string name="add_medication">Add medication</string>
+    <string name="edit_medication">Edit medication</string>
+    <string name="label_medication_name">Medication name</string>
+    <string name="label_dosage_amount">Dosage amount</string>
+    <string name="label_dosage_unit">Dosage unit</string>
+    <string name="label_notes">Notes</string>
+    <string name="label_time_of_day">Time of day (HH:mm)</string>
+    <string name="label_days_mask">Days mask (for weekly)</string>
+    <string name="label_interval_hours">Interval hours (for interval)</string>
+    <string name="label_grace_minutes">Grace window minutes</string>
+    <string name="save">Save</string>
+    <string name="save_schedule">Save schedule</string>
 </resources>

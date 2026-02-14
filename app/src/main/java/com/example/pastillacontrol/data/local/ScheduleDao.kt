@@ -8,9 +8,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ScheduleDao {
+    @Query("SELECT * FROM schedules ORDER BY startDateEpochMillis DESC")
+    fun observeAll(): Flow<List<ScheduleEntity>>
+
     @Query("SELECT * FROM schedules WHERE medicationId = :medicationId")
     fun observeByMedication(medicationId: Long): Flow<List<ScheduleEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(schedule: ScheduleEntity): Long
+    suspend fun insert(schedule: ScheduleEntity): Long
+
+    @Query("DELETE FROM schedules WHERE id = :id")
+    suspend fun deleteById(id: Long)
 }

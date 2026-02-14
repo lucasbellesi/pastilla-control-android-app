@@ -15,15 +15,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_medications_placeholder"
+    <Button
+        android:id="@+id/button_add_medication"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/placeholder_medications"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        android:minHeight="56dp"
+        android:text="@string/add_medication"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_medications_title" />
+
+    <ListView
+        android:id="@+id/list_medications"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_add_medication" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
