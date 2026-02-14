@@ -1,11 +1,14 @@
 package com.example.pastillacontrol.core.notifications
 
+import android.Manifest
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.example.pastillacontrol.MainActivity
 import com.example.pastillacontrol.R
 import com.example.pastillacontrol.data.local.DoseEventActionStore
@@ -53,6 +56,20 @@ class MedicationReminderReceiver : BroadcastReceiver() {
             .addAction(0, context.getString(R.string.action_taken), takenPendingIntent)
             .build()
 
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
         NotificationManagerCompat.from(context).notify(doseEventId.toInt(), notification)
     }
 
