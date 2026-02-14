@@ -2,20 +2,25 @@ package com.example.pastillacontrol.ui.medications
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.pastillacontrol.data.local.AppDatabaseProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.pastillacontrol.data.local.InMemoryStore
+import com.example.pastillacontrol.data.local.MedicationEntity
 
 class MedicationsViewModel(application: Application) : AndroidViewModel(application) {
-    private val medicationDao = AppDatabaseProvider.get(application).medicationDao()
+    private val _medications = MutableLiveData<List<MedicationEntity>>(emptyList())
+    val medications: LiveData<List<MedicationEntity>> = _medications
 
-    val medications = medicationDao.observeAll().asLiveData()
+    init {
+        InMemoryStore.init(application)
+    }
+
+    fun refresh() {
+        _medications.value = InMemoryStore.getMedications()
+    }
 
     fun deleteMedication(id: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            medicationDao.deleteById(id)
-        }
+        InMemoryStore.deleteMedication(id)
+        refresh()
     }
 }

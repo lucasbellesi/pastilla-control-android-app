@@ -63,5 +63,12 @@ class MedicationsFragment : Fragment() {
                 labels
             )
         }
+
+        viewModel.refresh()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refresh()
     }
 }

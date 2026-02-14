@@ -93,5 +93,12 @@ class ScheduleEditorFragment : Fragment() {
                 }
             )
         }
+
+        viewModel.refresh()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.refresh()
     }
 }
