@@ -20,4 +20,7 @@
     <string name="label_grace_minutes">Grace window minutes</string>
     <string name="save">Save</string>
     <string name="save_schedule">Save schedule</string>
+    <string name="language_selector_label">App language</string>
+    <string name="language_option_english">English</string>
+    <string name="language_option_spanish">Spanish</string>
 </resources>
