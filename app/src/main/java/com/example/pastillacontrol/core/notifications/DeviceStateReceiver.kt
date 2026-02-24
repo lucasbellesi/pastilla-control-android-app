@@ -6,6 +6,13 @@ import android.content.Intent
 
 class DeviceStateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        // Placeholder for rescheduling reminders after reboot/time changes.
+        when (intent.action) {
+            Intent.ACTION_BOOT_COMPLETED,
+            Intent.ACTION_TIME_CHANGED,
+            Intent.ACTION_TIMEZONE_CHANGED -> {
+                // Placeholder for rescheduling reminders after reboot/time changes.
+            }
+            else -> return
+        }
     }
 }
