@@ -19,6 +19,7 @@ class ScheduleEditorFragment : Fragment() {
     private val viewModel: ScheduleEditorViewModel by viewModels()
     private var medicationItems: List<MedicationEntity> = emptyList()
     private var scheduleItems: List<ScheduleEntity> = emptyList()
+    private val scheduleTypes = listOf("DAILY", "WEEKLY", "INTERVAL")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,13 +44,17 @@ class ScheduleEditorFragment : Fragment() {
         typeSpinner.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
-            listOf("DAILY", "WEEKLY", "INTERVAL")
+            listOf(
+                getString(R.string.schedule_type_daily),
+                getString(R.string.schedule_type_weekly),
+                getString(R.string.schedule_type_interval)
+            )
         )
 
         saveButton.setOnClickListener {
             val medication = medicationItems.getOrNull(medicationSpinner.selectedItemPosition)
                 ?: return@setOnClickListener
-            val type = typeSpinner.selectedItem?.toString() ?: "DAILY"
+            val type = scheduleTypes.getOrNull(typeSpinner.selectedItemPosition) ?: "DAILY"
             val timeOfDay = timeInput.text.toString().trim().ifEmpty { "08:00" }
             val daysMask = daysMaskInput.text.toString().toIntOrNull() ?: 0
             val intervalHours = intervalInput.text.toString().toIntOrNull()
@@ -89,7 +94,12 @@ class ScheduleEditorFragment : Fragment() {
                 requireContext(),
                 android.R.layout.simple_list_item_1,
                 schedules.map {
-                    "${it.type} at ${it.timeOfDay} | grace ${it.graceMinutes}m"
+                    getString(
+                        R.string.schedule_list_item,
+                        getLocalizedScheduleType(it.type),
+                        it.timeOfDay,
+                        it.graceMinutes
+                    )
                 }
             )
         }
@@ -100,5 +110,13 @@ class ScheduleEditorFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refresh()
+    }
+
+    private fun getLocalizedScheduleType(type: String): String {
+        return when (type) {
+            "WEEKLY" -> getString(R.string.schedule_type_weekly)
+            "INTERVAL" -> getString(R.string.schedule_type_interval)
+            else -> getString(R.string.schedule_type_daily)
+        }
     }
 }

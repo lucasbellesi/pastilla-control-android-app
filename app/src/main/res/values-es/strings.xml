@@ -18,6 +18,10 @@
     <string name="label_days_mask">Mascara de dias (semanal)</string>
     <string name="label_interval_hours">Intervalo en horas (por intervalo)</string>
     <string name="label_grace_minutes">Minutos de ventana de gracia</string>
+    <string name="schedule_type_daily">Diario</string>
+    <string name="schedule_type_weekly">Semanal</string>
+    <string name="schedule_type_interval">Intervalo</string>
+    <string name="schedule_list_item">%1$s a las %2$s | gracia %3$sm</string>
     <string name="save">Guardar</string>
     <string name="save_schedule">Guardar horario</string>
     <string name="language_selector_label">Idioma de la app</string>
