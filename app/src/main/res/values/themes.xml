@@ -1,8 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.PastillaControl" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/pc_primary</item>
+        <item name="colorOnPrimary">@color/pc_on_primary</item>
+        <item name="colorSecondary">@color/pc_secondary</item>
+        <item name="colorOnSecondary">@color/pc_on_secondary</item>
+        <item name="android:colorBackground">@color/pc_background</item>
+        <item name="colorOnBackground">@color/pc_on_background</item>
+        <item name="colorSurface">@color/pc_surface</item>
+        <item name="colorOnSurface">@color/pc_on_surface</item>
+        <item name="colorSurfaceVariant">@color/pc_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/pc_on_surface_variant</item>
+        <item name="android:windowBackground">@color/pc_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.PastillaControl" parent="Base.Theme.PastillaControl" />

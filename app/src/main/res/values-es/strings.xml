@@ -1,19 +1,26 @@
 <resources>
     <string name="app_name">PastillaControl</string>
     <string name="home_title">Hoy</string>
+    <string name="home_subtitle">Acceso rapido a medicamentos, horarios e historial de dosis.</string>
     <string name="menu_medications">Medicamentos</string>
     <string name="menu_schedule">Horarios</string>
     <string name="menu_history">Historial</string>
     <string name="placeholder_history">La base del historial de dosis esta lista.</string>
+    <string name="history_subtitle">Tus dosis proximas y completadas apareceran aqui.</string>
     <string name="reminder_title">Recordatorio de medicamento</string>
     <string name="reminder_message">Es hora de tomar tu medicamento.</string>
     <string name="action_taken">Tomado</string>
     <string name="add_medication">Agregar medicamento</string>
+    <string name="medications_subtitle">Toca un medicamento para editarlo. Manten presionado para eliminar.</string>
+    <string name="empty_medications">Todavia no hay medicamentos. Agrega el primero para comenzar.</string>
     <string name="edit_medication">Editar medicamento</string>
     <string name="label_medication_name">Nombre del medicamento</string>
     <string name="label_dosage_amount">Cantidad de dosis</string>
     <string name="label_dosage_unit">Unidad de dosis</string>
     <string name="label_notes">Notas</string>
+    <string name="schedule_subtitle">Configura recordatorios por hora, dias o intervalo.</string>
+    <string name="label_select_medication">Medicamento</string>
+    <string name="label_schedule_type">Tipo de horario</string>
     <string name="label_time_of_day">Hora del dia (HH:mm)</string>
     <string name="label_days_mask">Mascara de dias (semanal)</string>
     <string name="label_interval_hours">Intervalo en horas (por intervalo)</string>
@@ -22,9 +29,11 @@
     <string name="schedule_type_weekly">Semanal</string>
     <string name="schedule_type_interval">Intervalo</string>
     <string name="schedule_list_item">%1$s a las %2$s | gracia %3$sm</string>
+    <string name="empty_schedules">Todavia no hay horarios configurados.</string>
     <string name="save">Guardar</string>
     <string name="save_schedule">Guardar horario</string>
     <string name="language_selector_label">Idioma de la app</string>
+    <string name="language_selector_helper">Elige el idioma preferido para la interfaz.</string>
     <string name="language_option_english">Ingles</string>
     <string name="language_option_spanish">Espanol</string>
 </resources>

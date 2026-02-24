@@ -1,19 +1,26 @@
 <resources>
     <string name="app_name">PastillaControl</string>
     <string name="home_title">Today</string>
+    <string name="home_subtitle">Quick access to medications, schedules, and dose history.</string>
     <string name="menu_medications">Medications</string>
     <string name="menu_schedule">Schedules</string>
     <string name="menu_history">History</string>
     <string name="placeholder_history">Dose event timeline scaffold is ready.</string>
+    <string name="history_subtitle">Your upcoming and completed doses will appear here.</string>
     <string name="reminder_title">Medication reminder</string>
     <string name="reminder_message">It is time to take your medication.</string>
     <string name="action_taken">Taken</string>
     <string name="add_medication">Add medication</string>
+    <string name="medications_subtitle">Tap a medication to edit it. Long press to delete.</string>
+    <string name="empty_medications">No medications yet. Add your first medication to get started.</string>
     <string name="edit_medication">Edit medication</string>
     <string name="label_medication_name">Medication name</string>
     <string name="label_dosage_amount">Dosage amount</string>
     <string name="label_dosage_unit">Dosage unit</string>
     <string name="label_notes">Notes</string>
+    <string name="schedule_subtitle">Configure reminders by time, weekdays, or interval.</string>
+    <string name="label_select_medication">Medication</string>
+    <string name="label_schedule_type">Schedule type</string>
     <string name="label_time_of_day">Time of day (HH:mm)</string>
     <string name="label_days_mask">Days mask (for weekly)</string>
     <string name="label_interval_hours">Interval hours (for interval)</string>
@@ -22,9 +29,11 @@
     <string name="schedule_type_weekly">Weekly</string>
     <string name="schedule_type_interval">Interval</string>
     <string name="schedule_list_item">%1$s at %2$s | grace %3$sm</string>
+    <string name="empty_schedules">No schedules configured yet.</string>
     <string name="save">Save</string>
     <string name="save_schedule">Save schedule</string>
     <string name="language_selector_label">App language</string>
+    <string name="language_selector_helper">Choose your preferred language for the app interface.</string>
     <string name="language_option_english">English</string>
     <string name="language_option_spanish">Spanish</string>
 </resources>

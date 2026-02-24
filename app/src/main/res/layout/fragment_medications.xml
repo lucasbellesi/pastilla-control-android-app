@@ -15,16 +15,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/text_medications_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/medications_subtitle"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_medications_title" />
+
     <Button
         android:id="@+id/button_add_medication"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:minHeight="56dp"
+        android:textAllCaps="false"
         android:text="@string/add_medication"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_medications_title" />
+        app:layout_constraintTop_toBottomOf="@id/text_medications_subtitle" />
 
     <ListView
         android:id="@+id/list_medications"
@@ -35,5 +47,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_add_medication" />
+
+    <TextView
+        android:id="@+id/text_empty_medications"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="24dp"
+        android:text="@string/empty_medications"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:layout_constraintBottom_toBottomOf="@id/list_medications"
+        app:layout_constraintEnd_toEndOf="@id/list_medications"
+        app:layout_constraintStart_toStartOf="@id/list_medications"
+        app:layout_constraintTop_toTopOf="@id/list_medications" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

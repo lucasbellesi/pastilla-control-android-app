@@ -40,6 +40,9 @@ class ScheduleEditorFragment : Fragment() {
         val graceInput = view.findViewById<EditText>(R.id.input_grace_minutes)
         val saveButton = view.findViewById<Button>(R.id.button_save_schedule)
         val listView = view.findViewById<ListView>(R.id.list_schedules)
+        val emptyView = view.findViewById<View>(R.id.text_empty_schedules)
+
+        listView.emptyView = emptyView
 
         typeSpinner.adapter = ArrayAdapter(
             requireContext(),

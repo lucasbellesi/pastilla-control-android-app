@@ -16,6 +16,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/text_history_subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/history_subtitle"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_history_title" />
+
+    <TextView
         android:id="@+id/text_history_placeholder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -24,6 +35,6 @@
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_history_title" />
+        app:layout_constraintTop_toBottomOf="@id/text_history_subtitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

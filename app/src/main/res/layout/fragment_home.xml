@@ -15,27 +15,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_medications"
+    <TextView
+        android:id="@+id/text_home_subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:minHeight="56dp"
-        android:text="@string/menu_medications"
+        android:layout_marginTop="8dp"
+        android:text="@string/home_subtitle"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner_language" />
+        app:layout_constraintTop_toBottomOf="@id/text_home_title" />
 
     <TextView
         android:id="@+id/text_language_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="@string/language_selector_label"
-        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_home_title" />
+        app:layout_constraintTop_toBottomOf="@id/text_home_subtitle" />
+
+    <TextView
+        android:id="@+id/text_language_helper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/language_selector_helper"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_language_label" />
 
     <Spinner
         android:id="@+id/spinner_language"
@@ -44,7 +55,19 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_language_label" />
+        app:layout_constraintTop_toBottomOf="@id/text_language_helper" />
+
+    <Button
+        android:id="@+id/button_medications"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:minHeight="56dp"
+        android:textAllCaps="false"
+        android:text="@string/menu_medications"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_language" />
 
     <Button
         android:id="@+id/button_schedule"
@@ -52,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:minHeight="56dp"
+        android:textAllCaps="false"
         android:text="@string/menu_schedule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:minHeight="56dp"
+        android:textAllCaps="false"
         android:text="@string/menu_history"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -29,7 +29,10 @@ class MedicationsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val listView = view.findViewById<ListView>(R.id.list_medications)
+        val emptyView = view.findViewById<View>(R.id.text_empty_medications)
         val addButton = view.findViewById<Button>(R.id.button_add_medication)
+
+        listView.emptyView = emptyView
 
         addButton.setOnClickListener {
             findNavController().navigate(R.id.action_medicationsFragment_to_medicationEditorFragment)
